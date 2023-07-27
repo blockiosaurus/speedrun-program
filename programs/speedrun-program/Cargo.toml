@@ -1,0 +1,26 @@
+[package]
+name = "speedrun-program"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "speedrun_program"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = {version = "0.26.0", features = ["init-if-needed"]}
+anchor-spl = {version = "0.26.0", features = ["token", "associated_token"]}
+solana-program = "=1.14.21"
+spl-stake-pool = {version = "0.6.4", features = ["no-entrypoint"]}
+toml_datetime = "=0.6.1"
+winnow = "=0.4.1"
+spl-token = {version="=3.5.0", features = [ "no-entrypoint" ]}
+solana-zk-token-sdk = "=1.14.21"

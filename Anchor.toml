@@ -1,0 +1,37 @@
+[features]
+seeds = false
+skip-lint = false
+[programs.localnet]
+speedrun_program = "FARMTfoLHaQeoYgK1tP3dgC8emwkMtfxyg6ZTS7iMhgr"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Localnet"
+wallet = "/home/kelliott/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+[test.validator]
+url = "https://solana-mainnet.rpc.extrnode.com"
+
+[[test.validator.clone]]
+address = "SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy"
+[[test.validator.clone]]
+address = "stk9ApL5HeVAwPLr3TLhDXdZS8ptVu7zp6ov8HFDuMi"
+[[test.validator.clone]]
+address = "rsrxDvYUXjH1RQj2Ke36LNZEVqGztATxFkqNukERqFT"
+[[test.validator.clone]]
+address = "Dpo148tVGewDPyh2FkGV18gouWctbdX2fHJopJGe9xv1"
+[[test.validator.clone]]
+address = "bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1"
+[[test.validator.clone]]
+address = "2qyEeSAWKfU18AFthrF7JA8z8ZCi1yt76Tqs917vwQTV"
+[[test.validator.clone]]
+address = "H2HfvQc8JcZxCvAQNdYou9jYHSo2oUU8aadqo2wQ1vK"
+[[test.validator.clone]]
+address = "FQLvrMDsqJ2brYQRqG2Cgp5hvAJ7Z8C7boMtdi75iX7W"
+[[test.validator.clone]]
+address = "LAinEtNLgpmCP9Rvsf5Hn8W6EhNiKLZQti1xfWMLy6X"
