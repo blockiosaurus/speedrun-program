@@ -7,7 +7,7 @@ use solana_program::program::invoke;
 use crate::{SpeedrunError, constants::lainesol::*};
 
 #[derive(Accounts)]
-pub struct PlantLaineSolAccounts<'info> {
+pub struct HarvestLaineSolAccounts<'info> {
     /// CHECK: Checked in constraints
     #[account(address = spl_stake_pool::ID @ SpeedrunError::InvalidStakePoolProgram)]
     pub stake_pool_program_id: UncheckedAccount<'info>,
@@ -33,7 +33,7 @@ pub struct PlantLaineSolAccounts<'info> {
         associated_token::mint = pool_mint, 
         associated_token::authority = payer
     )]
-    pub pool_tokens_to: Account<'info, TokenAccount>,
+    pub pool_tokens_from: Account<'info, TokenAccount>,
 
     #[account(mut, address = LAINESOL_FEE_ACCOUNT @ SpeedrunError::InvalidStakePoolFeeAccount)]
     pub manager_fee_account: Account<'info, TokenAccount>,
@@ -51,15 +51,21 @@ pub struct PlantLaineSolAccounts<'info> {
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
+    pub clock: Sysvar<'info, Clock>,
+    pub stake_history: Sysvar<'info, StakeHistory>,
+
+    /// CHECK: Checked in constraints
+    #[account(address = solana_program::stake::program::ID @ SpeedrunError::InvalidStakeProgram)]
+    pub stake_program: UncheckedAccount<'info>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug, PartialEq, Eq)]
-pub struct PlantLaineSolArgs {
+pub struct HarvestLaineSolArgs {
     pub amount: u64,
 }
 
-impl PlantLaineSolAccounts<'_> {
-    pub fn handler(ctx: Context<PlantLaineSolAccounts>, args: PlantLaineSolArgs) -> Result<()> {
+impl HarvestLaineSolAccounts<'_> {
+    pub fn handler(ctx: Context<HarvestLaineSolAccounts>, args: HarvestLaineSolArgs) -> Result<()> {
         // let activation_ix = anchor_lang::solana_program::system_instruction::transfer(
         //     ctx.accounts.payer.key,
         //     ctx.accounts.activation_account.key,
@@ -75,15 +81,24 @@ impl PlantLaineSolAccounts<'_> {
         //     ],
         // )?;
 
-        let stake_ix = spl_stake_pool::instruction::deposit_sol(
+        let stake_ix = spl_stake_pool::instruction::withdraw_sol(
+            // Stake pool program ID
             &ctx.accounts.stake_pool_program_id.key(),
+            // Stake pool
             &ctx.accounts.stake_pool.key(),
+            // Stake pool withdraw authority
             &ctx.accounts.stake_pool_withdraw_authority.key(),
-            &ctx.accounts.reserve_stake_account.key(),
+            // User transfer authority, for pool token account
             &ctx.accounts.payer.key(),
-            &ctx.accounts.pool_tokens_to.key(),
+            // User account to burn pool tokens
+            &ctx.accounts.pool_tokens_from.key(),
+            // Reserve stake account, to withdraw SOL
+            &ctx.accounts.reserve_stake_account.key(),
+            // Account receiving the lamports from the reserve, must be a system account
+            &ctx.accounts.payer.key(),
+            // Account to receive pool fee tokens
             &ctx.accounts.manager_fee_account.key(),
-            &ctx.accounts.pool_tokens_to.key(),
+            // Pool token mint account
             &ctx.accounts.pool_mint.key(),
             &ctx.accounts.token_program.key(),
             args.amount,
@@ -100,7 +115,7 @@ impl PlantLaineSolAccounts<'_> {
                     .clone(),
                 ctx.accounts.reserve_stake_account.to_account_info().clone(),
                 ctx.accounts.payer.to_account_info().clone(),
-                ctx.accounts.pool_tokens_to.to_account_info().clone(),
+                ctx.accounts.pool_tokens_from.to_account_info().clone(),
                 ctx.accounts.manager_fee_account.to_account_info().clone(),
                 ctx.accounts.payer.to_account_info().clone(),
                 ctx.accounts.pool_mint.to_account_info().clone(),
@@ -110,6 +125,8 @@ impl PlantLaineSolAccounts<'_> {
                     .associated_token_program
                     .to_account_info()
                     .clone(),
+                ctx.accounts.clock.to_account_info().clone(),
+                ctx.accounts.stake_history.to_account_info().clone(),
             ],
         )?;
 

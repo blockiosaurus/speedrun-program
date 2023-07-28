@@ -3,15 +3,8 @@ use anchor_spl::{
     associated_token::AssociatedToken,
     token::{Mint, Token, TokenAccount},
 };
-use solana_program::{pubkey, program::invoke};
-use crate::SpeedrunError;
-
-const BSOL_STAKE_POOL: Pubkey = pubkey!("stk9ApL5HeVAwPLr3TLhDXdZS8ptVu7zp6ov8HFDuMi");
-const BSOL_MINT: Pubkey = pubkey!("bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1");
-const BSOL_WITHDRAW_AUTH: Pubkey = pubkey!("6WecYymEARvjG5ZyqkrVQ6YkhPfujNzWpSPwNKXHCbV2");
-const BSOL_RESERVE_STAKE: Pubkey = pubkey!("rsrxDvYUXjH1RQj2Ke36LNZEVqGztATxFkqNukERqFT");
-const BSOL_FEE_ACCOUNT: Pubkey = pubkey!("Dpo148tVGewDPyh2FkGV18gouWctbdX2fHJopJGe9xv1");
-const SOLPAY_API_ACTIVATION: Pubkey = pubkey!("7f18MLpvAp48ifA1B8q8FBdrGQhyt9u5Lku2VBYejzJL");
+use solana_program::program::invoke;
+use crate::{SpeedrunError, constants::bsol::*};
 
 #[derive(Accounts)]
 pub struct PlantBSolAccounts<'info> {

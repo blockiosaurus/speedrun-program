@@ -76,5 +76,49 @@ describe("speedrun-program", () => {
       .signers([payer])
       .rpc({skipPreflight: true});
     console.log("Your transaction signature", tx1);
+
+    // Add your test here.
+    const tx2 = await program.methods
+      .harvestBsol({amount: new anchor.BN(900000000)})
+      .accounts({
+        stakePoolProgramId: solanaStakePool.STAKE_POOL_PROGRAM_ID,
+        stakePool: BSOL_STAKE_POOL,
+        stakePoolWithdrawAuthority: BSOL_WITHDRAW_AUTH,
+        reserveStakeAccount: BSOL_RESERVE_STAKE,
+        payer: payer.publicKey,
+        poolTokensFrom: bsolATA,
+        managerFeeAccount: BSOL_FEE_ACCOUNT,
+        poolMint: BSOL_MINT,
+        activationAccount: SOLPAY_API_ACTIVATION,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        stakeHistory: anchor.web3.SYSVAR_STAKE_HISTORY_PUBKEY,
+        stakeProgram: anchor.web3.StakeProgram.programId,
+      })
+      .signers([payer])
+      .rpc({skipPreflight: true});
+
+      // Add your test here.
+    const tx3 = await program.methods
+    .harvestLainesol({amount: new anchor.BN(900000000)})
+    .accounts({
+      stakePoolProgramId: solanaStakePool.STAKE_POOL_PROGRAM_ID,
+      stakePool: LAINESOL_STAKE_POOL,
+      stakePoolWithdrawAuthority: LAINESOL_WITHDRAW_AUTH,
+      reserveStakeAccount: LAINESOL_RESERVE_STAKE,
+      payer: payer.publicKey,
+      poolTokensFrom: laineSolATA,
+      managerFeeAccount: LAINESOL_FEE_ACCOUNT,
+      poolMint: LAINESOL_MINT,
+      tokenProgram: TOKEN_PROGRAM_ID,
+      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      systemProgram: anchor.web3.SystemProgram.programId,
+      stakeHistory: anchor.web3.SYSVAR_STAKE_HISTORY_PUBKEY,
+      stakeProgram: anchor.web3.StakeProgram.programId,
+    })
+    .signers([payer])
+    .rpc({skipPreflight: true});
+    console.log("Your transaction signature", tx3);
   });
 });

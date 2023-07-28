@@ -1,0 +1,5 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./programs/speedrun-program/Cargo.toml",
+    ]
+}

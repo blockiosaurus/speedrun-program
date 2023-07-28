@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "programs/*"
+    "programs/speedrun-program"
 ]
 
 [profile.release]
