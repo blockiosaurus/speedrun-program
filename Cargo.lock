@@ -1413,6 +1413,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e5ea92a5b6195c6ef2a0295ea818b312502c6fc94dde986c5553242e18fd4ce2"
 
 [[package]]
+name = "rust_decimal"
+version = "1.26.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ee9164faf726e4f3ece4978b25ca877ddc6802fa77f38cdccb32c7f805ecd70c"
+dependencies = [
+ "arrayvec",
+ "num-traits",
+ "serde",
+]
+
+[[package]]
 name = "rustc-hash"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1567,9 +1578,9 @@ checksum = "62bb4feee49fdd9f707ef802e22365a35de4b7b299de4763d44bfea899442ff9"
 
 [[package]]
 name = "solana-frozen-abi"
-version = "1.14.21"
+version = "1.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "351019a83ce0f3c4e3be94d77478ab05fc63173054008bf7d94c879a2fbecabd"
+checksum = "dc7245b88e5bcedc9096d7c7ffd8cf6769987b151e381e8a3561939898d9e495"
 dependencies = [
  "ahash",
  "blake3",
@@ -1601,9 +1612,9 @@ dependencies = [
 
 [[package]]
 name = "solana-frozen-abi-macro"
-version = "1.14.21"
+version = "1.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ffbce93c3e02ed81ce0fee3fda2ebd27ff83b2c29e539ac834cef18e6c506b7a"
+checksum = "546f204604da1d6958e412f4d3bc8cad34de6a81dc379fac07e53a29e224bcf0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1613,9 +1624,9 @@ dependencies = [
 
 [[package]]
 name = "solana-logger"
-version = "1.14.21"
+version = "1.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af924d1eaaaf8024ac8d065c68dfed46843a5dd98a5b08863a06132a16f181e3"
+checksum = "12090fa9b638f374492c86c62b79e0e82479e3632ced02a33ff560ffdce72e04"
 dependencies = [
  "env_logger",
  "lazy_static",
@@ -1624,9 +1635,9 @@ dependencies = [
 
 [[package]]
 name = "solana-program"
-version = "1.14.21"
+version = "1.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad7bf19fac9aa34717ff346c4588b4cae07f17b6caeca2bca6012101e8214415"
+checksum = "c3e7df881407995597cf32299df06cc8ac3d7fc4cd53e69e95964832beca48c3"
 dependencies = [
  "base64 0.13.1",
  "bincode",
@@ -1673,9 +1684,9 @@ dependencies = [
 
 [[package]]
 name = "solana-sdk"
-version = "1.14.21"
+version = "1.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57788649d5e83cf68188ecc731cf6432a47558e2c85ab919e21e4dcb023fed5b"
+checksum = "4bdc5c047bf29730ad00e2c9ef92d396877c836633177089a00b7311e6eb3ead"
 dependencies = [
  "assert_matches",
  "base64 0.13.1",
@@ -1724,9 +1735,9 @@ dependencies = [
 
 [[package]]
 name = "solana-sdk-macro"
-version = "1.14.21"
+version = "1.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "19aa23da3d994c1ede69ff48a0f34f6c7600ae6ea7309344dc357349c463695c"
+checksum = "43cff60ba1f94594f1de7baf649bf781383e806e834e26607ff8857a9452cd3c"
 dependencies = [
  "bs58 0.4.0",
  "proc-macro2",
@@ -1737,9 +1748,9 @@ dependencies = [
 
 [[package]]
 name = "solana-zk-token-sdk"
-version = "1.14.21"
+version = "1.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "616b4b714c1facfc2265c5254ecb270cda5504dd6a9328b584cc94ebb2dd062e"
+checksum = "e7a679b4dabee8d23a7bfa657440c892a88420191da11352313ab83f986826a7"
 dependencies = [
  "aes-gcm-siv",
  "arrayref",
@@ -1776,6 +1787,7 @@ dependencies = [
  "solana-zk-token-sdk",
  "spl-stake-pool",
  "spl-token",
+ "switchboard-v2",
  "toml_datetime",
  "winnow",
 ]
@@ -1884,6 +1896,27 @@ name = "subtle"
 version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6bdef32e8150c2a081110b42772ffe7d7c9032b606bc226c8260fd97e0976601"
+
+[[package]]
+name = "superslice"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab16ced94dbd8a46c82fd81e3ed9a8727dac2977ea869d217bcc4ea1f122e81f"
+
+[[package]]
+name = "switchboard-v2"
+version = "0.1.22"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8abae8f9cce6c361940bf09fdff5772f32c9d24f3144c0767a10b1109bea7f26"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "bytemuck",
+ "rust_decimal",
+ "solana-program",
+ "spl-token",
+ "superslice",
+]
 
 [[package]]
 name = "syn"

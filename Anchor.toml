@@ -18,6 +18,8 @@ test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
 url = "https://solana-mainnet.rpc.extrnode.com"
 
 [[test.validator.clone]]
+address = "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"
+[[test.validator.clone]]
 address = "SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy"
 [[test.validator.clone]]
 address = "stk9ApL5HeVAwPLr3TLhDXdZS8ptVu7zp6ov8HFDuMi"
@@ -35,3 +37,11 @@ address = "H2HfvQc8JcZxCvAQNdYou9jYHSo2oUU8aadqo2wQ1vK"
 address = "FQLvrMDsqJ2brYQRqG2Cgp5hvAJ7Z8C7boMtdi75iX7W"
 [[test.validator.clone]]
 address = "LAinEtNLgpmCP9Rvsf5Hn8W6EhNiKLZQti1xfWMLy6X"
+[[test.validator.clone]]
+address = "EeSBrqRNbPkWY25BQZZMSfBLeLnLpkZ3oMYnPn15yjQp"
+[[test.validator.clone]]
+address = "2EU8d2ohBgKBYnHUFQL3oqQWX2jFkZiKBPmaDAbZMRdP"
+[[test.validator.clone]]
+address = "6qBqGAYmoZw2r4fda7671NSUbcDWE4XicJdJoWqK8aTe"
+[[test.validator.clone]]
+address = "SW1TCH7qEPTdLsDHRgPuMQjbQxKdH2aBStViMFnt64f"

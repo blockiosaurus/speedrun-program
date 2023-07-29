@@ -3,9 +3,11 @@ use anchor_lang::prelude::*;
 
 pub mod constants;
 pub mod instructions;
+pub mod state;
 
 pub use constants::*;
 pub use instructions::*;
+pub use state::*;
 
 declare_id!("FARMTfoLHaQeoYgK1tP3dgC8emwkMtfxyg6ZTS7iMhgr");
 
@@ -33,6 +35,18 @@ pub mod speedrun_program {
         args: HarvestLaineSolArgs,
     ) -> Result<()> {
         HarvestLaineSolAccounts::handler(ctx, args)
+    }
+
+    pub fn init_crop(ctx: Context<InitCrop>, args: InitCropArgs) -> Result<()> {
+        InitCrop::handler(ctx, args)
+    }
+
+    pub fn close_crop(ctx: Context<CloseCrop>) -> Result<()> {
+        CloseCrop::handler(ctx)
+    }
+
+    pub fn update_crop(ctx: Context<UpdateCrop>) -> Result<()> {
+        UpdateCrop::handler(ctx)
     }
 }
 

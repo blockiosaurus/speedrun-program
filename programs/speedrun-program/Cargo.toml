@@ -18,9 +18,10 @@ default = []
 [dependencies]
 anchor-lang = {version = "0.26.0", features = ["init-if-needed"]}
 anchor-spl = {version = "0.26.0", features = ["token", "associated_token"]}
-solana-program = "=1.14.21"
+solana-program = "=1.14.18"
 spl-stake-pool = {version = "0.6.4", features = ["no-entrypoint"]}
 toml_datetime = "=0.6.1"
 winnow = "=0.4.1"
 spl-token = {version="=3.5.0", features = [ "no-entrypoint" ]}
-solana-zk-token-sdk = "=1.14.21"
+solana-zk-token-sdk = "=1.14.18"
+switchboard-v2 = "=0.1.22"
