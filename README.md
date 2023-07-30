@@ -2,7 +2,9 @@
 
 ## Overview
 
-The Honeypot Fields smart contract stores and manages a wallet's Solana DeFi portfolio. The data is meant to be accessed through the [Honeypot Fields frontend client](https://github.com/blockiosaurus/speedrun-xnft)
+The Honeypot Fields smart contract stores and manages a wallet's Solana DeFi portfolio. The data is meant to be accessed through the [Honeypot Fields frontend client](https://github.com/blockiosaurus/speedrun-xnft). Link to [Solana program backend](https://github.com/blockiosaurus/speedrun-program).
+
+![Diagram](./Diagram.png)
 
 ## Accounts
 
