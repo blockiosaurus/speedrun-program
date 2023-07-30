@@ -48,6 +48,22 @@ pub mod speedrun_program {
     pub fn update_crop(ctx: Context<UpdateCrop>) -> Result<()> {
         UpdateCrop::handler(ctx)
     }
+
+    pub fn init_farm(ctx: Context<InitFarm>) -> Result<()> {
+        InitFarm::handler(ctx)
+    }
+
+    pub fn build(ctx: Context<Build>, args: BuildArgs) -> Result<()> {
+        Build::handler(ctx, args)
+    }
+
+    pub fn close_farm(ctx: Context<CloseFarm>) -> Result<()> {
+        CloseFarm::handler(ctx)
+    }
+
+    pub fn set_avatar(ctx: Context<SetAvatar>, args: SetAvatarArgs) -> Result<()> {
+        SetAvatar::handler(ctx, args)
+    }
 }
 
 #[error_code]

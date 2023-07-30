@@ -3,6 +3,7 @@ import { Program } from "@project-serum/anchor";
 import * as solanaStakePool from '@solana/spl-stake-pool';
 import { SpeedrunProgram } from "../target/types/speedrun_program";
 import { getAssociatedTokenAddressSync, ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction } from "@solana/spl-token";
+import { assert } from "chai";
 
 const BSOL_STAKE_POOL = new anchor.web3.PublicKey("stk9ApL5HeVAwPLr3TLhDXdZS8ptVu7zp6ov8HFDuMi");
 const BSOL_MINT = new anchor.web3.PublicKey("bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1");
@@ -18,6 +19,8 @@ const LAINESOL_RESERVE_STAKE = new anchor.web3.PublicKey("H2HfvQc8JcZxCvAQNdYou9
 const LAINESOL_FEE_ACCOUNT = new anchor.web3.PublicKey("FQLvrMDsqJ2brYQRqG2Cgp5hvAJ7Z8C7boMtdi75iX7W");
 
 const BONK_MINT = new anchor.web3.PublicKey("DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263");
+
+const TREASURY = new anchor.web3.PublicKey("farmywvb5jLLh2WTYhJed9YjVhE88MLChR4vXnVQJfr");
 
 describe("speedrun-program", () => {
   // Configure the client to use the local cluster.
@@ -214,6 +217,21 @@ describe("speedrun-program", () => {
     const crop1 = await program.account.crop.fetch(cropAddress[0]);
     console.log("Crop", JSON.stringify(crop1, null, 2));
 
+    const close_tx = await program.methods
+      .closeCrop()
+      .accounts({
+        crop: cropAddress[0],
+        mint: BSOL_MINT,
+        payer: payer.publicKey,
+      })
+      .signers([payer])
+      .rpc({ skipPreflight: true });
+    confirmTransaction(update_tx, "finalized");
+
+    const crop2 = await anchor.getProvider().connection.getAccountInfo(cropAddress[0])
+    // console.log("Crop", JSON.stringify(crop2, null, 2));
+    assert(crop2 === null, "Crop account not closed");
+
     // Add your test here.
     const unstake_tx = await program.methods
       .harvestBsol({ amount: new anchor.BN(900000000) })
@@ -385,6 +403,102 @@ describe("speedrun-program", () => {
 
     const crop1 = await program.account.crop.fetch(cropAddress[0]);
     console.log("Crop", JSON.stringify(crop1, null, 2));
+  });
+
+  it("Init Farm/Build Bed", async () => {
+    const payer = anchor.web3.Keypair.generate();
+    let airdrop0 = await anchor.getProvider().connection.requestAirdrop(payer.publicKey, 10000000000);
+    await confirmTransaction(airdrop0, "finalized");
+
+    const farmAddress = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("farm"), payer.publicKey.toBuffer()],
+      program.programId
+    );
+
+    const init_tx = await program.methods
+      .initFarm()
+      .accounts({
+        farm: farmAddress[0],
+        payer: payer.publicKey,
+      })
+      .signers([payer])
+      .rpc({ skipPreflight: true });
+    await confirmTransaction(init_tx, "finalized");
+
+    const farm0 = await program.account.farm.fetch(farmAddress[0]);
+    console.log("Farm", JSON.stringify(farm0, null, 2));
+
+    const bed_tx = await program.methods
+      .build({ item: { bed: {} } })
+      .accounts({
+        farm: farmAddress[0],
+        payer: payer.publicKey,
+        treasury: TREASURY,
+      })
+      .signers([payer])
+      .rpc({ skipPreflight: true });
+    await confirmTransaction(bed_tx, "finalized");
+
+    const farm1 = await program.account.farm.fetch(farmAddress[0]);
+    console.log("Farm", JSON.stringify(farm1, null, 2));
+
+    const close_tx = await program.methods
+      .closeFarm()
+      .accounts({
+        farm: farmAddress[0],
+        payer: payer.publicKey,
+      })
+      .signers([payer])
+      .rpc({ skipPreflight: true });
+    await confirmTransaction(init_tx, "finalized");
+  });
+
+  it("Set Avatar", async () => {
+    const payer = anchor.web3.Keypair.generate();
+    let airdrop0 = await anchor.getProvider().connection.requestAirdrop(payer.publicKey, 10000000000);
+    await confirmTransaction(airdrop0, "finalized");
+
+    const farmAddress = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("farm"), payer.publicKey.toBuffer()],
+      program.programId
+    );
+
+    const init_tx = await program.methods
+      .initFarm()
+      .accounts({
+        farm: farmAddress[0],
+        payer: payer.publicKey,
+      })
+      .signers([payer])
+      .rpc({ skipPreflight: true });
+    await confirmTransaction(init_tx, "finalized");
+
+    const farm0 = await program.account.farm.fetch(farmAddress[0]);
+    console.log("Farm", JSON.stringify(farm0, null, 2));
+
+    const avatar_tx = await program.methods
+      .setAvatar({ avatar: "DTP" })
+      .accounts({
+        farm: farmAddress[0],
+        payer: payer.publicKey,
+        treasury: TREASURY,
+      })
+      .signers([payer])
+      .rpc({ skipPreflight: true });
+    await confirmTransaction(avatar_tx, "finalized");
+
+    const farm1 = await program.account.farm.fetch(farmAddress[0]);
+    console.log("Farm", JSON.stringify(farm1, null, 2));
+
+    const close_tx = await program.methods
+      .closeFarm()
+      .accounts({
+        farm: farmAddress[0],
+        payer: payer.publicKey,
+      })
+      .signers([payer])
+      .rpc({ skipPreflight: true });
+    await confirmTransaction(init_tx, "finalized");
   });
 });
 
